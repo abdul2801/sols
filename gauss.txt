@@ -1,0 +1,30 @@
+def gauss_jordan(A, b):
+    n = len(A)
+    for i in range(n):
+        # Find pivot row and swap
+        max_row = max(range(i, n), key=lambda r: abs(A[r][i]))
+        A[i], A[max_row] = A[max_row], A[i]
+        b[i], b[max_row] = b[max_row], b[i]
+
+        # Reduce pivot row
+        pivot = A[i][i]
+        for j in range(i, n):
+            A[i][j] /= pivot
+        b[i] /= pivot
+
+        # Reduce other rows
+        for k in range(n):
+            if k != i:
+                factor = A[k][i]
+                for j in range(i, n):
+                    A[k][j] -= factor * A[i][j]
+                b[k] -= factor * b[i]
+
+    return b
+
+
+# Example usage
+A = [[3, 2, -4], [2, 3, 3], [5, -3, 1]]
+b = [3, 15, 14]
+solution = gauss_jordan(A, b)
+print(solution)
